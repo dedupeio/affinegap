@@ -9,17 +9,19 @@ cimport numpy as np
 
 cdef double NAN = <double> np.nan
 
-# Calculate the affine gap distance between two strings 
-#
-# Default weights are from Alvaro Monge and Charles Elkan, 1996, 
-# "The field matching problem: Algorithms and applications" 
-# http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.23.9685
 cpdef float affineGapDistance(basestring string_a, basestring string_b,
                               float matchWeight = 1,
                               float mismatchWeight = 11,
                               float gapWeight = 10,
                               float spaceWeight = 7,
                               float abbreviation_scale = .125):
+    """
+    Calculate the affine gap distance between two strings 
+    
+    Default weights are from Alvaro Monge and Charles Elkan, 1996, 
+    "The field matching problem: Algorithms and applications" 
+    http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.23.9685
+    """
 
     cdef unicode string1 = _ustring(string_b)
     cdef unicode string2 = _ustring(string_a)
