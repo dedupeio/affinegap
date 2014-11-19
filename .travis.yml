@@ -15,9 +15,7 @@ before_install:
 - sudo apt-get install cython
 install:
 - pip install requirements
-- pip install python-coveralls
 - cython affinegap/*.pyx
 - python setup.py develop
 script:
-- coverage run -m nose
-after_success: coveralls
+- nosetests
