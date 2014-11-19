@@ -1,7 +1,7 @@
 affinegap
 =========
 
-A Cython implementation of the [affine gap penalty string distance](http://en.wikipedia.org/wiki/Gap_penalty#Affine_Gap_Penalty)also known as the [Smith–Waterman algorithm](http://en.wikipedia.org/wiki/Smith%E2%80%93Waterman_algorithm)
+A Cython implementation of the [affine gap penalty string distance](http://en.wikipedia.org/wiki/Gap_penalty#Affine_Gap_Penalty) also known as the [Smith–Waterman algorithm](http://en.wikipedia.org/wiki/Smith%E2%80%93Waterman_algorithm)
 
 [![Build Status](https://travis-ci.org/datamade/affinegap.svg?branch=master)](https://travis-ci.org/datamade/affinegap)
 
