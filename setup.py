@@ -7,7 +7,6 @@ except ImportError :
     raise ImportError("setuptools module required, please go to https://pypi.python.org/pypi/setuptools and follow the instructions for installing setuptools")
 
 # from Michael Hoffman's http://www.ebi.ac.uk/~hoffman/software/sunflower/
-
 class NumpyExtension(Extension):
 
     def __init__(self, *args, **kwargs):
@@ -18,17 +17,26 @@ class NumpyExtension(Extension):
 
     # warning: Extension is a classic class so it's not really read-only
 
-    @property
-    def include_dirs(self):
+    def get_include_dirs(self):
         from numpy import get_include
 
         return self._include_dirs + [get_include()]
+
+    def set_include_dirs(self, value):
+        self._include_dirs = value
+
+    def del_include_dirs(self):
+        pass
+        
+    include_dirs = property(get_include_dirs, 
+                            set_include_dirs, 
+                            del_include_dirs)
 
 
 setup(
     name='affinegap',
     url='https://github.com/datamade/affinegap',
-    version='1.0',
+    version='1.1',
     description='A Cython implementation of the affine gap string distance',
     packages=['affinegap'],
     install_requires=['numpy'],

@@ -9,7 +9,7 @@ notifications:
   irc: chat.freenode.net#dedupe
 python:
 - "2.7_with_system_site_packages"
-- '2.6'
+- '3.4'
 before_install:
 - sudo add-apt-repository ppa:cython-dev/master-ppa -y
 - sudo apt-get update -qq
