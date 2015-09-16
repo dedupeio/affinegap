@@ -36,7 +36,7 @@ class NumpyExtension(Extension):
 setup(
     name='affinegap',
     url='https://github.com/datamade/affinegap',
-    version='1.1',
+    version='1.2',
     description='A Cython implementation of the affine gap string distance',
     packages=['affinegap'],
     install_requires=['numpy'],
