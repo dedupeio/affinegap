@@ -4,11 +4,9 @@
 
 from libc cimport limits
 from libc.stdlib cimport malloc, free
-import numpy as np
-cimport numpy as np
 from warnings import warn
 
-cdef double NAN = <double> np.nan
+cdef double NAN = <double> float('nan')
 
 cpdef float affineGapDistance(basestring string_a, basestring string_b,
                               float matchWeight = 1,
