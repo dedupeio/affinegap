@@ -9,10 +9,10 @@ except ImportError :
 setup(
     name='affinegap',
     url='https://github.com/datamade/affinegap',
-    version='1.5',
+    version='1.6',
     description='A Cython implementation of the affine gap string distance',
     packages=['affinegap'],
-    ext_modules=[Extension('affinegap.affinegap', ['affinegap/affinegap.c'])],
+    ext_modules=[Extension('affinegap.algorithm', ['affinegap/algorithm.c'])],
     license='The MIT License: http://www.opensource.org/licenses/mit-license.php',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
