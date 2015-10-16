@@ -12,7 +12,7 @@ python:
 - "2.7"
 - '3.4'
 install:
-- pip install requirements
+- pip install requirements.txt
 - cython affinegap/*.pyx
 - python setup.py develop
 script:
