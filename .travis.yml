@@ -9,12 +9,8 @@ notifications:
   irc: chat.freenode.net#dedupe
 sudo: false
 python:
-- "2.7_with_system_site_packages"
+- "2.7"
 - '3.4'
-before_install:
-- sudo add-apt-repository ppa:cython-dev/master-ppa -y
-- sudo apt-get update -qq
-- sudo apt-get install cython
 install:
 - pip install requirements
 - cython affinegap/*.pyx
