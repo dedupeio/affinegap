@@ -1,2 +1,2 @@
-from .algorithm import affineGapDistance
-from .algorithm import normalizedAffineGapDistance
+from .affinegap import affineGapDistance
+from .affinegap import normalizedAffineGapDistance

@@ -9,7 +9,7 @@ except ImportError :
 setup(
     name='affinegap',
     url='https://github.com/datamade/affinegap',
-    version='1.7',
+    version='1.8',
     description='A Cython implementation of the affine gap string distance',
     packages=['affinegap'],
     ext_modules=[Extension('affinegap.affinegap', ['affinegap/affinegap.c'])],
