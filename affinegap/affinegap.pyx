@@ -122,9 +122,6 @@ cpdef float normalizedAffineGapDistance(basestring string1, basestring string2,
     cdef int length1 = len(string1)
     cdef int length2 = len(string2)
 
-    if length1 == 0 or length2 == 0 :
-        return NAN
-
     cdef float normalizer = length1 + length2
 
     cdef float distance = affineGapDistance(string1, string2,
