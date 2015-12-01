@@ -4,7 +4,6 @@
 
 from libc cimport limits
 from libc.stdlib cimport malloc, free
-from warnings import warn
 
 cdef double NAN = <double> float('nan')
 
@@ -27,10 +26,6 @@ cpdef float affineGapDistance(basestring string_a, basestring string_b,
 
     cdef int length1 = len(string1)
     cdef int length2 = len(string2)
-
-    if length1 == 0 or length2 == 0 :
-        warn('In the dedupe 1.2 release, missing data will have to have a value of None. See http://dedupe.readthedocs.org/en/latest/Variable-definition.html#missing-data')
-        return NAN
 
     if (string1 == string2 and
         matchWeight == min(matchWeight,
