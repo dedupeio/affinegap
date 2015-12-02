@@ -27,7 +27,8 @@ class AffineGapTest(unittest.TestCase):
         assert self.affineGapDistance('aaa', 'abba', -5, 5, 5, 1, 0.5) == 1
     
     def test_normalized_affine_gap_correctness(self):
-        assert self.normalizedAffineGapDistance('', '', -5, 5, 5, 1, 0.5) == 0
+        with self.assertRaises(ZeroDivisionError) :
+            self.normalizedAffineGapDistance('', '', -5, 5, 5, 1, 0.5)
         assert self.normalizedAffineGapDistance('a', '', -5, 5, 5, 1, 0.5) == 6
 
 if __name__ == "__main__":
