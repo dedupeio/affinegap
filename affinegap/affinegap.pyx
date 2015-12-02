@@ -1,5 +1,5 @@
 # cython: boundscheck=False, wraparound=False
-# cdivision=True
+# cython: cdivision=False
 # cython: c_string_type=unicode, c_string_encoding=utf8
 
 from libc cimport limits
@@ -117,7 +117,7 @@ cpdef float normalizedAffineGapDistance(basestring string1, basestring string2,
                                         float mismatchWeight = 11,
                                         float gapWeight = 10,
                                         float spaceWeight = 7,
-                                        float abbreviation_scale = .125) :
+                                        float abbreviation_scale = .125) except? 999 :
 
     cdef int length1 = len(string1)
     cdef int length2 = len(string2)
