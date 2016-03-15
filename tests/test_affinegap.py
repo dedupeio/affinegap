@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
 import affinegap
-import numpy
 
 class AffineGapTest(unittest.TestCase):
     def setUp(self):
