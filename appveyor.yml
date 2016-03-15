@@ -1,0 +1,45 @@
+# Continuous integration procedure for AppVeyor
+# Based on https://raw.githubusercontent.com/choderalab/itctools/master/appveyor.yml
+
+environment:
+  password:
+    secure: uOcv5TOm/CgwOmiLQhNX+g==
+
+  matrix:
+    - python : 27
+    - python : 27-x64
+    - python : 34
+    - python : 34-x64
+
+install:
+  - "SET PATH=C:\\Python%PYTHON%;c:\\Python%PYTHON%\\scripts;%PATH%"
+  - python -m pip install --upgrade pip
+  - pip install -r requirements.txt
+  - cython affinegap/*.pyx
+  - pip install -e . 
+
+build: false
+
+test_script:
+  # Nosetests take care of unit tests
+  # Behave runs the example scripts and tries to verify if it produces the right output
+  - nosetests
+
+on_success:
+  # Could run coveralls here but will leave that to travis tests
+  - echo Build succesful!
+  - coverage report
+
+deploy_script:
+  - echo [distutils]                                  > %USERPROFILE%\\.pypirc
+  - echo index-servers =                             >> %USERPROFILE%\\.pypirc
+  - echo     pypi                                    >> %USERPROFILE%\\.pypirc
+  - echo [pypi]                                      >> %USERPROFILE%\\.pypirc
+  - echo repository=https://pypi.python.org/pypi     >> %USERPROFILE%\\.pypirc
+  - echo username=fgregg                             >> %USERPROFILE%\\.pypirc
+  - echo password=%password%                         >> %USERPROFILE%\\.pypirc
+  - set HOME=%USERPROFILE%
+  - pip install wheel
+  - ps: if($env:APPVEYOR_REPO_TAG -eq $TRUE) { python -W ignore setup.py bdist_wheel upload }
+
+deploy : on
