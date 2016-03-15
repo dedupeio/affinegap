@@ -28,7 +28,6 @@ test_script:
 on_success:
   # Could run coveralls here but will leave that to travis tests
   - echo Build succesful!
-  - coverage report
 
 deploy_script:
   - echo [distutils]                                  > %USERPROFILE%\\.pypirc
