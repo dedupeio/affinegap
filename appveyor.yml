@@ -15,7 +15,7 @@ install:
   - "SET PATH=C:\\Python%PYTHON%;c:\\Python%PYTHON%\\scripts;%PATH%"
   - python -m pip install --upgrade pip
   - pip install -r requirements.txt
-  - cython affinegap/*.pyx
+  - cython affinegap/affinegap.pyx
   - pip install -e . 
 
 build: false
