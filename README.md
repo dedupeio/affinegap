@@ -28,6 +28,7 @@ d3 = affinegap.normalizedAffineGapDistance('foo', 'bar')
 git clone https://github.com/datamade/affinegap.git
 cd affinegap
 pip install -r requirements
+cython affinegap/*.pyx
 python setup.py develop
 nosetests
 ```
