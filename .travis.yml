@@ -31,7 +31,8 @@ matrix:
     script:
     - docker run --rm -v `pwd`:/io $DOCKER_IMAGE /io/.manylinux-install.sh
     after_success:
-    - if [[ $TRAVIS_TAG ]]; then pip install twine && twine upload -u datamade.wheelbuilder -p $PYPIPASSWORD --skip-existing wheelhouse/*; fi
+    - if [[ $TRAVIS_TAG ]]; then pip install twine && twine upload -u datamade.wheelbuilder
+      -p $PYPIPASSWORD --skip-existing wheelhouse/*; fi
     - exit 0
   - sudo: required
     services:
@@ -53,26 +54,25 @@ install:
 script:
 - pytest tests --cov affinegap
 after_success:
-  - pip install coveralls
-  - coveralls
+- pip install coveralls
+- coveralls
 deploy:
-  - provider: pypi
-    skip_cleanup: true
-    user: datamade.wheelbuilder
-    on:
-      tags: true
-      condition: $TRAVIS_OS_NAME = osx
-    distributions: bdist_wheel
-    password:
-      - secure: QaxKqXcIl51JhRLVKfspzzdepmO/UgS8z6cNXi+T3LHo4/83mRsp5d6VEN17EEsDtXqLCav5g920DHHvDb+tcEK9l+O/uI5ysQkxNSd3vNQ6P21c9UV7Xf3s7c+xCJZZVymuXCtr0m/eZAzhsBdDB5JBSIKfsJMdUY2xxZSVRmI=
-  - provider: pypi
-    skip_cleanup: true
-    user: datamade.wheelbuilder
-    on:
-      tags: true
-      condition: $TRAVIS_OS_NAME = linux
-    distributions: sdist
-    password:
-      - secure: QaxKqXcIl51JhRLVKfspzzdepmO/UgS8z6cNXi+T3LHo4/83mRsp5d6VEN17EEsDtXqLCav5g920DHHvDb+tcEK9l+O/uI5ysQkxNSd3vNQ6P21c9UV7Xf3s7c+xCJZZVymuXCtr0m/eZAzhsBdDB5JBSIKfsJMdUY2xxZSVRmI=
-global:
-  secure: F4plWxao2AD8A0hmi0TckwEgCTu0K18PL4fSwS9poNViF783+HgrqzbjI4aGT+Ez67T/SvBYQBWSGlFt5FVnwfRzUeFrs99g4gi/I4RpsHmeAtMaM8iUdZ4BsfYSStoNOaVZeLhS97v++VMvAhiCiJBw9j5b2fKrBlrBSrHXYIo=
+- provider: pypi
+  skip_cleanup: true
+  user: datamade.wheelbuilder
+  on:
+    tags: true
+    condition: "$TRAVIS_OS_NAME = osx"
+  distributions: bdist_wheel
+  password: $PYPIPASSWORD
+- provider: pypi
+  skip_cleanup: true
+  user: datamade.wheelbuilder
+  on:
+    tags: true
+    condition: "$TRAVIS_OS_NAME = linux"
+  distributions: sdist
+  password: $PYPIPASSWORD
+env:
+  global:
+    secure: Ysy424Ejwz/VEvClxfu6gq+KElMp74q28N6zeHlt4mdmVkXXRblZBrGwD9uk/UBVigRTUouvk4CMAi2W+IzfFeTNOkbMzfznAi9GmQxsusQHZs9sCc77+YbbynAePVIoLzkh22eE7WeQkl0kDdHXoynQ4ST9qnP2u5fHOnjr4wU=
