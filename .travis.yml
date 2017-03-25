@@ -57,6 +57,7 @@ after_success:
 - pip install coveralls
 - coveralls
 deploy:
+  skip_cleanup: true
   provider: pypi
   user: datamade.wheelbuilder
   on:
