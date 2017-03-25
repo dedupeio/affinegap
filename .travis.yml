@@ -1,7 +1,7 @@
 branches:
   only:
-    - master
-    - "/^v.*$/"
+  - master
+  - "/^v.*$/"
 notifications:
   email:
     on_success: change
@@ -18,49 +18,52 @@ matrix:
   - os: osx
     language: generic
     before_install:
-      - brew update
-      - brew install python3
-      - virtualenv env -p python3
-      - source env/bin/activate
+    - brew update
+    - brew install python3
+    - virtualenv env -p python3
+    - source env/bin/activate
   - sudo: required
     services:
-      - docker
+    - docker
     env: DOCKER_IMAGE=quay.io/pypa/manylinux1_x86_64
     install:
-      - docker pull $DOCKER_IMAGE
+    - docker pull $DOCKER_IMAGE
     script:
-      - docker run --rm -v `pwd`:/io $DOCKER_IMAGE /io/.manylinux-install.sh
+    - docker run --rm -v `pwd`:/io $DOCKER_IMAGE /io/.manylinux-install.sh
     after_success:
-      - if [[ $TRAVIS_TAG ]]; then pip install twine && twine upload -u datamade.wheelbuilder -p $PYPIPASSWORD --skip-existing wheelhouse/*; fi
-      - exit 0
+    - if [[ $TRAVIS_TAG ]]; then pip install twine && twine upload -u datamade.wheelbuilder
+      -p $PYPIPASSWORD --skip-existing wheelhouse/*; fi
+    - exit 0
   - sudo: required
     services:
-      - docker
+    - docker
     env: DOCKER_IMAGE=quay.io/pypa/manylinux1_i686
     install:
-      - docker pull $DOCKER_IMAGE
+    - docker pull $DOCKER_IMAGE
     script:
-      - docker run --rm -v `pwd`:/io $DOCKER_IMAGE /io/.manylinux-install.sh
+    - docker run --rm -v `pwd`:/io $DOCKER_IMAGE /io/.manylinux-install.sh
     after_success:
-      - if [[ $TRAVIS_TAG ]]; then pip install twine && twine upload -u datamade.wheelbuilder -p $PYPIPASSWORD --skip-existing wheelhouse/*; fi
-      - exit 0
+    - if [[ $TRAVIS_TAG ]]; then pip install twine && twine upload -u datamade.wheelbuilder
+      -p $PYPIPASSWORD --skip-existing wheelhouse/*; fi
+    - exit 0
 install:
-  - pip install --upgrade pip
-  - pip install --upgrade -r requirements.txt
-  - cython affinegap/*.pyx
-  - pip install -e .
+- pip install --upgrade pip
+- pip install --upgrade -r requirements.txt
+- cython affinegap/*.pyx
+- pip install -e .
 script:
-  - pytest tests --cov affinegap
+- pytest tests --cov affinegap
 after_success:
-  - pip install coveralls
-  - coveralls
+- pip install coveralls
+- coveralls
 deploy:
   provider: pypi
   user: datamade.wheelbuilder
   on:
     tags: true
   distributions: sdist bdist_wheel
-  password: $PYPIPASSWORD
+  password:
+    secure: QaxKqXcIl51JhRLVKfspzzdepmO/UgS8z6cNXi+T3LHo4/83mRsp5d6VEN17EEsDtXqLCav5g920DHHvDb+tcEK9l+O/uI5ysQkxNSd3vNQ6P21c9UV7Xf3s7c+xCJZZVymuXCtr0m/eZAzhsBdDB5JBSIKfsJMdUY2xxZSVRmI=
 env:
   global:
   - secure: hbnDtsCjPDA3cx1RHnU1j0fDB3weyHwPUsniriuk4Lix1ubb4UYtR5ZEZxYR7SicjGv5UN07LfhzWa9Xk8mwbOF4OQmWsQq+2Y3JIyUlSIFbFNCBk4e0t9pjffXTcCJmk3aJEvbvtHOn0B0eoKB6kN8PHKR4a4BZwifRa0NL+Ug=
