@@ -53,11 +53,11 @@ install:
 script:
 - pytest tests --cov affinegap
 after_success:
-- pip install coveralls
-- coveralls
+  - pip install coveralls
+  - coveralls
 deploy:
-  skip_cleanup: true
   - provider: pypi
+    skip_cleanup: true
     user: datamade.wheelbuilder
     on:
       tags: true
@@ -65,6 +65,7 @@ deploy:
     distributions: bdist_wheel
     password: $PYPIPASSWORD
   - provider: pypi
+    skip_cleanup: true
     user: datamade.wheelbuilder
     on:
       tags: true
