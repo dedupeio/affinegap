@@ -31,7 +31,7 @@ matrix:
     script:
       - docker run --rm -v `pwd`:/io $DOCKER_IMAGE /io/.manylinux-install.sh
     after_success:
-      - if [[ $TRAVIS_TAG ]]; then pip install twine && twine upload -u datamade.wheelbuilder -p $PYPIPASSWORD wheelhouse/*; fi
+      - if [[ $TRAVIS_TAG ]]; then pip install twine && twine upload -u datamade.wheelbuilder -p $PYPIPASSWORD --skip-existing wheelhouse/*; fi
       - exit 0
   - sudo: required
     services:
@@ -42,7 +42,7 @@ matrix:
     script:
       - docker run --rm -v `pwd`:/io $DOCKER_IMAGE /io/.manylinux-install.sh
     after_success:
-      - if [[ $TRAVIS_TAG ]]; then pip install twine && twine upload -u datamade.wheelbuilder -p $PYPIPASSWORD wheelhouse/*; fi
+      - if [[ $TRAVIS_TAG ]]; then pip install twine && twine upload -u datamade.wheelbuilder -p $PYPIPASSWORD --skip-existing wheelhouse/*; fi
       - exit 0
 install:
   - pip install --upgrade pip
@@ -50,7 +50,7 @@ install:
   - cython affinegap/*.pyx
   - pip install -e .
 script:
-  - pytest tests --cov dedupe
+  - pytest tests --cov affinegap
 after_success:
   - pip install coveralls
   - coveralls
