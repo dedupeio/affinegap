@@ -31,8 +31,7 @@ matrix:
     script:
     - docker run --rm -v `pwd`:/io $DOCKER_IMAGE /io/.manylinux-install.sh
     after_success:
-    - if [[ $TRAVIS_TAG ]]; then pip install twine && twine upload -u datamade.wheelbuilder
-      -p $PYPIPASSWORD --skip-existing wheelhouse/*; fi
+    - if [[ $TRAVIS_TAG ]]; then pip install twine && twine upload -u datamade.wheelbuilder -p $PYPIPASSWORD --skip-existing wheelhouse/*; fi
     - exit 0
   - sudo: required
     services:
@@ -58,11 +57,19 @@ after_success:
 - coveralls
 deploy:
   skip_cleanup: true
-  provider: pypi
-  user: datamade.wheelbuilder
-  on:
-    tags: true
-  distributions: sdist bdist_wheel
-  password: $PYPIPASSWORD
+  - provider: pypi
+    user: datamade.wheelbuilder
+    on:
+      tags: true
+      condition: $TRAVIS_OS_NAME = osx
+    distributions: bdist_wheel
+    password: $PYPIPASSWORD
+  - provider: pypi
+    user: datamade.wheelbuilder
+    on:
+      tags: true
+      condition: $TRAVIS_OS_NAME = linux
+    distributions: sdist
+    password: $PYPIPASSWORD
 global:
   secure: F4plWxao2AD8A0hmi0TckwEgCTu0K18PL4fSwS9poNViF783+HgrqzbjI4aGT+Ez67T/SvBYQBWSGlFt5FVnwfRzUeFrs99g4gi/I4RpsHmeAtMaM8iUdZ4BsfYSStoNOaVZeLhS97v++VMvAhiCiJBw9j5b2fKrBlrBSrHXYIo=
