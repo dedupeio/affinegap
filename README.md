@@ -30,7 +30,7 @@ cd affinegap
 pip install -r requirements.txt
 cython affinegap/*.pyx
 python setup.py develop
-nosetests
+pytest
 ```
 
 ## Team
