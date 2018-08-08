@@ -3,7 +3,7 @@ affinegap
 
 A Cython implementation of the [affine gap penalty string distance](http://en.wikipedia.org/wiki/Gap_penalty#Affine_Gap_Penalty) also known as the [Smith–Waterman algorithm](http://en.wikipedia.org/wiki/Smith%E2%80%93Waterman_algorithm)
 
-[![Build Status](https://travis-ci.org/datamade/affinegap.svg?branch=master)](https://travis-ci.org/datamade/affinegap)
+[![Build Status](https://travis-ci.org/dedupeio/affinegap.svg?branch=master)](https://travis-ci.org/dedupeio/affinegap)
 
 ## To install
 ```bash
@@ -25,7 +25,7 @@ d3 = affinegap.normalizedAffineGapDistance('foo', 'bar')
 
 ## To get set up for development
 ```bash
-git clone https://github.com/datamade/affinegap.git
+git clone https://github.com/dedupeio/affinegap.git
 cd affinegap
 pip install -r requirements.txt
 cython affinegap/*.pyx
@@ -35,12 +35,12 @@ pytest
 
 ## Team
 
-* Forest Gregg, DataMade
+* Forest Gregg, Dedupeio
 
 ## Errors and Bugs
 
 If something is not behaving intuitively, it is a bug and should be reported.
-Report it here by creating an issue: https://github.com/datamade/affinegap/issues
+Report it here by creating an issue: https://github.com/dedupeio/affinegap/issues
 
 Help us fix the problem as quickly as possible by following [Mozilla's guidelines for reporting bugs.](https://developer.mozilla.org/en-US/docs/Mozilla/QA/Bug_writing_guidelines#General_Outline_of_a_Bug_Report)
 
@@ -54,4 +54,4 @@ Your patches are welcome. Here's our suggested workflow:
 
 ## Copyright and Attribution
 
-Copyright (c) 2016 Forest Gregg and DataMade. Released under the [MIT License](https://github.com/datamade/affinegap/blob/master/LICENSE).
+Copyright (c) 2016 Forest Gregg and Dedupeio. Released under the [MIT License](https://github.com/dedupeio/affinegap/blob/master/LICENSE).

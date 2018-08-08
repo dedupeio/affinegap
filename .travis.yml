@@ -16,17 +16,20 @@ matrix:
   - os: osx
     language: generic
     before_install:
-      - virtualenv env -p python
+      - brew update
+      - brew upgrade python
+      - brew install python2
+      - pip install virtualenv
+      - python2 -m virtualenv env
       - source env/bin/activate
   - os: osx
     language: generic
     before_install:
-    - brew update
-    - brew install python3
-    - virtualenv env -p python3
-    - source env/bin/activate
-  - sudo: required
-    services:
+      - brew update
+      - brew upgrade python
+      - python3 -m venv env
+      - source env/bin/activate
+  - services:
     - docker
     env: DOCKER_IMAGE=quay.io/pypa/manylinux1_x86_64
     install:
@@ -37,8 +40,7 @@ matrix:
     - if [[ $TRAVIS_TAG ]]; then pip install twine && twine upload -u datamade.wheelbuilder
       -p $PYPIPASSWORD --skip-existing wheelhouse/*; fi
     - exit 0
-  - sudo: required
-    services:
+  - services:
     - docker
     env: DOCKER_IMAGE=quay.io/pypa/manylinux1_i686
     install:
@@ -52,7 +54,6 @@ matrix:
 install:
 - pip install --upgrade pip
 - pip install --upgrade -r requirements.txt
-- cython affinegap/*.pyx
 - pip install -e .
 script:
 - pytest tests --cov affinegap
