@@ -29,6 +29,8 @@ class AffineGapTest(unittest.TestCase):
         with self.assertRaises(ZeroDivisionError) :
             self.normalizedAffineGapDistance('', '', -5, 5, 5, 1, 0.5)
         assert self.normalizedAffineGapDistance('a', '', -5, 5, 5, 1, 0.5) == 6
+        assert self.normalizedAffineGapDistance('ab', 'ab') == 0.5
+        assert self.normalizedAffineGapDistance("日本", "日本") == 0.5
 
 if __name__ == "__main__":
     unittest.main()
