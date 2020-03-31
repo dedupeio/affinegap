@@ -3,6 +3,8 @@ affinegap
 
 A Cython implementation of the [affine gap penalty string distance](http://en.wikipedia.org/wiki/Gap_penalty#Affine_Gap_Penalty) also known as the [Smith–Waterman algorithm](http://en.wikipedia.org/wiki/Smith%E2%80%93Waterman_algorithm)
 
+Part of the [Dedupe.io](https://dedupe.io/) cloud service and open source toolset for de-duplicating and finding fuzzy matches in your data.
+
 [![Build Status](https://travis-ci.org/dedupeio/affinegap.svg?branch=master)](https://travis-ci.org/dedupeio/affinegap)
 
 ## To install
