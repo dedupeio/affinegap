@@ -42,6 +42,52 @@ jobs:
         pip wheel -w dist --no-deps .
         twine upload dist/*
       continue-on-error: true
+  build_test_aarch64:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [cp36-cp36m, cp37-cp37m, cp38-cp38, cp39-cp39]
+    env:
+      py: /opt/python/${{ matrix.python-version }}/bin/python
+      img: quay.io/pypa/manylinux2014_aarch64
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: docker/setup-qemu-action@v1
+    - name: Test with pytest
+      run: |
+        docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
+          ${{ env.img }} \
+          bash -exc '${{ env.py }} -m pip install virtualenv && ${{ env.py }} -m venv .env && \
+          source .env/bin/activate && \
+          python -m pip install --upgrade pip && \
+          pip install -e . && \
+          pip install -r requirements.txt && \
+          pip install pytest && \
+          pytest && \
+          deactivate'
+    - name: Build aarch64 wheel
+      if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
+      run: |
+        docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
+          ${{ env.img }} \
+          bash -exc '${{ env.py }} -m pip install virtualenv && ${{ env.py }} -m venv .env && \
+          source .env/bin/activate && \
+          python -m pip install --upgrade pip && \
+          pip install twine wheel && \
+          pip wheel -w dist --no-deps . && \
+          auditwheel repair dist/*.whl --wheel-dir wheelhouse/ && \
+          deactivate'
+      continue-on-error: true
+    - name: Publish wheels to PyPI
+      if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
+      env:
+        TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
+        TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+      run: |
+        pip install twine
+        twine upload wheelhouse/*manylinux2014_aarch64.whl
+      continue-on-error: true
   complete_coveralls:
     needs: test
     runs-on: ubuntu-latest
