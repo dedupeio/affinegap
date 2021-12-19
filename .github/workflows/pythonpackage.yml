@@ -9,7 +9,7 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest, macos-latest, ubuntu-latest]
-        python-version: [3.6, 3.7, 3.8]
+        python-version: [3.7, 3.8, 3.9, "3.10"]
 
     steps:
     - uses: actions/checkout@v1
@@ -42,32 +42,40 @@ jobs:
         pip wheel -w dist --no-deps .
         twine upload dist/*
       continue-on-error: true
-  complete_coveralls:
+  finish:
     needs: test
     runs-on: ubuntu-latest
     steps:
     - name: Coveralls Finished
-      uses: coverallsapp/github-action@master
+      uses: coverallsapp/github-action@57daa114ba54fd8e1c8563e8027325c0bf2f5e80
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        parallel-finished: true
-  manylinux_sdist:
-    if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
+        parallel-finished: true        
+  wheels:
+    if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')  
     needs: test
-    runs-on: ubuntu-latest
+    name: Build wheels on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
     steps:
     - uses: actions/checkout@v1
-    - name: Set up Python
-      uses: actions/setup-python@v1
+    - uses: actions/setup-python@v2
+    - name: Set up QEMU
+      if: runner.os == 'Linux'
+      uses: docker/setup-qemu-action@v1
       with:
-        python-version: 3.8
-    - name: Build manylinux Python wheels
-      uses: datamade/python-wheels-manylinux-build@248b22d
-      with:
-        python-versions: 'cp36-cp36m cp37-cp37m cp38-cp38'
+        platforms: all    
+    - name: Build wheels
+      uses: pypa/cibuildwheel@v2.2.2
+      env:
+        CIBW_ARCHS_MACOS: x86_64 arm64 universal2
+        CIBW_ARCHS_LINUX: auto aarch64
+        CIBW_SKIP: pp38-macosx_* pp37-macosx_* pp37-win_* pp38-win_* pp38-manylinux_aarch64 pp37-manylinux_aarch64 pp37-manylinux_i686 pp38-manylinux_i686 *-musllinux_* *s390x *ppc64le
     - name: Build sdist
       run: |
-        pip install cython
+        pip install numpy cython wheel setuptools
         python setup.py sdist
     - name: Publish wheels to PyPI
       env:
@@ -75,6 +83,6 @@ jobs:
         TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
       run: |
         pip install twine
-        twine upload --skip-existing wheelhouse/*-manylinux1_x86_64.whl
+        twine upload --skip-existing wheelhouse/*.whl
         twine upload dist/*
       continue-on-error: true
