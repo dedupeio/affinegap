@@ -22,7 +22,7 @@ else:
 setup(
     name='affinegap',
     url='https://github.com/datamade/affinegap',
-    version='1.11',
+    version='1.12',
     description='A Cython implementation of the affine gap string distance',
     packages=['affinegap'],
     ext_modules=ext_modules,
