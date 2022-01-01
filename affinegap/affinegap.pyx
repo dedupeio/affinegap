@@ -1,5 +1,5 @@
 # cython: boundscheck=False, wraparound=False
-# cython: cdivision=False
+# cython: cdivision=True
 # cython: c_string_type=unicode, c_string_encoding=utf8
 # cython: language_level=3
 
@@ -119,6 +119,9 @@ cpdef float normalizedAffineGapDistance(str string_a, str string_b,
     cdef int length2 = len(string_b)
 
     cdef float normalizer = length1 + length2
+
+    if normalizer == 0:
+        raise ZeroDivisionError('normalizedAffineGapDistance cannot take two empty strings')
 
     cdef float distance = affineGapDistance(string_a, string_b,
                                             matchWeight,
